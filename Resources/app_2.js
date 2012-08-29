@@ -19,18 +19,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
     alert("申し訳ございません、位置情報を利用することができません");
   }else{
     current_position = e.coords;
-
-    var annotation = Ti.Map.createAnnotation({
-      animate:true,
-      pincolor: Titanium.Map.ANNOTATION_GREEN,
-      title:'現在地',
-      subtitle:'現在地です',
-      latitude:current_position.latitude,
-      longitude:current_position.longitude
-    });
-
     var map = Ti.Map.createView({
-      annotations:[annotation],
       mapType: Titanium.Map.STANDARD_TYPE,
       animate:true,
       region:{ 
