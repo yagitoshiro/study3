@@ -56,7 +56,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         borderColor:'Black',
         borderRadius:25,top:5,left:5});
 
-      update_compass = function(e){
+      var update_compass = function(e){
         if(e.error){
           Ti.API.info(e);
           return;
@@ -72,7 +72,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         var angle = 360 - magnetic_heading;
         rotate = rotate.rotate(angle);
         compass.transform = rotate;
-      }
+      };
 
       Ti.Geolocation.headingFilter = 30;
       Ti.Geolocation.getCurrentHeading(function(e){
