@@ -56,41 +56,30 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         borderColor:'Black',
         borderRadius:25,top:5,left:5});
 
+      update_compass = function(e){
+        if(e.error){
+          Ti.API.info(e);
+          return;
+        }
+        var x = e.heading.x;
+        var y = e.heading.y;
+        var z = e.heading.z;
+        var magnetic_heading = e.heading.magneticHeading;
+        var accuracy = e.heading.accuracy;
+        var true_heading = e.heading.trueHeading;
+        var timestamp = e.heading.timestamp;
+        var rotate = Ti.UI.create2DMatrix();
+        var angle = 360 - magnetic_heading;
+        rotate = rotate.rotate(angle);
+        compass.transform = rotate;
+      }
+
       Ti.Geolocation.headingFilter = 30;
       Ti.Geolocation.getCurrentHeading(function(e){
-        if(e.error){
-          Ti.API.info(e);
-          return;
-        }
-        var x = e.heading.x;
-        var y = e.heading.y;
-        var z = e.heading.z;
-        var magnetic_heading = e.heading.magneticHeading;
-        var accuracy = e.heading.accuracy;
-        var true_heading = e.heading.trueHeading;
-        var timestamp = e.heading.timestamp;
-        var rotate = Ti.UI.create2DMatrix();
-        var angle = 360 - magnetic_heading;
-        rotate = rotate.rotate(angle);
-        compass.transform = rotate;
+        update_compass(e);
       });
       Ti.Geolocation.addEventListener('heading', function(e){
-        if(e.error){
-          Ti.API.info("heading error");
-          Ti.API.info(e);
-          return;
-        }
-        var x = e.heading.x;
-        var y = e.heading.y;
-        var z = e.heading.z;
-        var magnetic_heading = e.heading.magneticHeading;
-        var accuracy = e.heading.accuracy;
-        var true_heading = e.heading.trueHeading;
-        var timestamp = e.heading.timestamp;
-        var rotate = Ti.UI.create2DMatrix();
-        var angle = 360 - magnetic_heading;
-        rotate = rotate.rotate(angle);
-        compass.transform = rotate;
+        update_compass(e);
       });
 
       var map = Ti.Map.createView({
