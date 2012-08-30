@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps JavaScript API v3 Example: Map Simple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map_canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+    var map;
+    var directionDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+    function load_map(end_lat, end_lng, start_lat, start_lng){
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      var mapOptions = {
+        zoom: 15,
+        center: new google.maps.LatLng(end_lat, end_lng),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map(document.getElementById('map_canvas'),
+          mapOptions);
+      directionsDisplay.setMap(map);
+
+      var start_point = new google.maps.LatLng(start_lat, start_lng);
+      var end_point = new google.maps.LatLng(end_lat, end_lng);
+      var route_request = {
+        origin:start_point,
+        destination:end_point,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+      };
+     directionsService.route(route_request, function(response, status) {
+       alert('route');
+       if (status == google.maps.DirectionsStatus.OK) {
+         directionsDisplay.setDirections(response);
+       }else{
+         alert(status);
+       }
+     });
+    }
+    </script>
+  </head>
+  <body>
+    <div id="map_canvas"></div>
+  </body>
+</html>
+

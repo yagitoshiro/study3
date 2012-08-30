@@ -1,16 +1,5 @@
 Titanium.UI.setBackgroundColor('#000');
 
-function get_lang(){
-  var lang = Ti.Platform.locale;
-  if(lang == 'zh_hans'){
-    lang = 'zh-CN';
-  }
-  if(lang == 'zh_hant'){
-    lang = 'zh-TW';
-  }
-  return lang;
-}
-
 var tabGroup = Titanium.UI.createTabGroup();
 
 var win1 = Titanium.UI.createWindow({  
@@ -31,7 +20,13 @@ Titanium.Geolocation.getCurrentPosition(function(e){
   }else{
     current_position = e.coords;
 
-    var lang = get_lang();
+    var lang = Ti.Platform.locale;
+    if(lang == 'zh_hans'){
+      lang = 'zh-CN';
+    }
+    if(lang == 'zh_hant'){
+      lang = 'zh-TW';
+    }
     var url = "http://maps.google.com/maps/api/geocode/json?latlng=" + current_position.latitude + "," + current_position.longitude + "&sensor=true&language=" + lang;
     var http = Ti.Network.createHTTPClient({timeout:10000});
     http.onload = function(e){
@@ -58,27 +53,11 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         regionFit:true,
         userLocation:false
       });
-
-      map.addEventListener('click', function(e){
-        var detail_win = Ti.UI.createWindow({title:'チェックイン', backgroundColor:'White'});
-        if(e.annotation){
-          var address = e.annotation.subtitle;
-        }else{
-          var address = '不明';
-        }
-        detail_win.add(Ti.UI.createLabel({text:address, width:Ti.UI.SIZE,height:Ti.UI.SIZE,top:20}));
-        detail_win.add(Ti.UI.createLabel({text:e.annotation.latitude, width:Ti.UI.SIZE,height:Ti.UI.SIZE,top:70}));
-        detail_win.add(Ti.UI.createLabel({text:e.annotation.longitude, width:Ti.UI.SIZE,height:Ti.UI.SIZE,top:120}));
-        detail_win.add(Ti.UI.createButton({title:'チェックイン',  width:Ti.UI.SIZE,height:Ti.UI.SIZE,top:170}));
-        tab1.open(detail_win);
-      });
-
       win1.add(map);
     };
     http.open('GET', url);
     http.send();
   }
-  Ti.API.info(e);
 });
 
 
