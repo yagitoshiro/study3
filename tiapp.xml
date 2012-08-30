@@ -8,7 +8,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>2.1.1.GA</sdk-version>
-    <id>org.selfkleptomanaic.ti.app.study3</id>
+    <id>org.selfkleptomaniac.ti.app.study3demoTest</id>
     <name>Study3</name>
     <version>1.0</version>
     <publisher>toshiro</publisher>
