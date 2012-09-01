@@ -21,6 +21,11 @@ var search= Ti.UI.createSearchBar({
 win1.titleControl = search;
 
 search.addEventListener('return', function(e){
+
+  if(!Ti.Network.online){
+    alert("ネットワークに接続できません。");
+    return;
+  }
   var address = e.source.value;
   search.blur();
   var lang = Ti.Platform.locale;
@@ -33,6 +38,10 @@ search.addEventListener('return', function(e){
   var url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&language=' + lang + '&sensor=false'
   Ti.API.info(url);
   var http = Ti.Network.createHTTPClient({timeout:10000});
+
+  http.onerror = function(e){
+    alert("通信エラーです。不吉ですね。");
+  };
   http.onload = function(e){
     var response = JSON.parse(http.responseText);
     var geo = response.results[0].geometry.location;
