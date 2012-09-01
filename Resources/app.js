@@ -12,15 +12,32 @@ var tab1 = Titanium.UI.createTab({
     window:win1
 });
 
-var label1 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 1',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
+Ti.Geolocation.purpose = "アプリで利用できるGPS機能の理解を深めるため";
+var current_position = null;
+Titanium.Geolocation.getCurrentPosition(function(e){
+  if(e.error){
+    alert("申し訳ございません、位置情報を利用することができません");
+  }else{
+    current_position = e.coords;
+
+    var map = Ti.Map.createView({
+      annotations:[annotation],
+      mapType: Titanium.Map.STANDARD_TYPE,
+      animate:true,
+      region:{ 
+        latitude:current_position.latitude,
+        longitude:current_position.longitude,
+        latitudeDelta:0.01,
+        longitudeDelta:0.01
+      },
+      regionFit:true,
+      userLocation:true
+    });
+    win1.add(map);
+  }
+  Ti.API.info(e);
 });
 
-win1.add(label1);
 
 var win2 = Titanium.UI.createWindow({  
     title:'Tab 2',

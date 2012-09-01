@@ -39,7 +39,7 @@ var destication_point = {};
 
 navi_button.addEventListener('click', function(){
   if(destication_point.latitude){
-    var lang = get_langu();
+    var lang = get_lang();
     var url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + start_point.latitude + "," + start_point.longitude + "&destination=" + destication_point.latitude + "," + destication_point.longitude + "&sensor=false&language=" + lang;
     Ti.API.info(url);
     var navi_http = Ti.Network.createHTTPClient({timeout:10000});
@@ -75,7 +75,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
   }else{
     current_position = e.coords;
 
-    var lang = get_langu();
+    var lang = get_lang();
     var url = "http://maps.google.com/maps/api/geocode/json?latlng=" + current_position.latitude + "," + current_position.longitude + "&sensor=true&language=" + lang;
     var http = Ti.Network.createHTTPClient({timeout:10000});
     http.onload = function(e){
